@@ -94,6 +94,6 @@ obj.__proto___会指向child.prototype， 而obj.__proto___.__proto__会指向ch
 
 有一点需要注意的时，当你使用child.prototype = new father(); 他会破坏原来child.prototype以及其指向，所以你必须在这之后对child.prototype添加你需要的属性，比如本例中的say属性，或者修改constructor属性。
 
-## 也可以使用ES6中新添加的方法 a = Object.create(b) 创建一个对象指向a，并使a的原型关联到b对象上。类比可以将b看作时例子中的father.prototype或者child.prototype。
+#### 也可以使用ES6中新添加的方法 a = Object.create(b) 创建一个对象指向a，并使a的原型关联到b对象上。类比可以将b看作时例子中的father.prototype或者child.prototype。
 
 

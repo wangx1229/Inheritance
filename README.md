@@ -51,8 +51,8 @@ JS中通常使用new关键字调用构造函数来创建一个对象。  
 function father() {
   this.name = 'Daddy';
 }
-father.prototype.spell = function() {
-  console.log(this.name + ' from prototype');
+father.prototype.say = function() {
+  console.log('from father');
 }
 const obj = new father();
 ```
@@ -61,7 +61,39 @@ father类中属性，会通过new调用以后，成为实例obj的属性，因�
 同时由于obj的原型对象会指向father.prototype对象，因此obj可以通过原型使用father.prototype中的spell属性。
 
 下面我们加入子类的情况，其中子类是通过父类实现的。
+## 如果你仅仅希望子类的实例继承于子类但又不继承与父类时
 
+#### 假如你希望子类使用父类中的属性，你可以：
+```javascript
+function child() {
+  father.call(this)  //神奇的call()方法
+}
+child.prototype = new father();
+child.prototype.say = father.prototype.say;
+const obj = new child();
+```
+子类通过father.call(this) 会将father函数中this帮到child上，这是就相当于child.name = 'Daddy'，也就相当于在child中写成this.name = 'Daddy'。这个时候在创建子类实例的时候，name会被添加到obj上，obj可以通过原型指向say。注意child.prototype.say = father.prototype.say并没有让子类和父类相关联。这连个方法只是指向了同一个函数引用。因此更改father原型中的say属性并不会影响child原型中的say属性。
+## 如果你希望子类的实例继承于子类但又继承与父类时
+```javascript
+function child() {
+  father.call(this)  //神奇的call()方法 
+}
+child.prototype = new father();
 
+child.prototype.speak = function() {
+ console.log('from child')
+}
+
+const obj = new child();
+```
+这个时候，会首先在child.prototype上创建一个name属性，然后将child.prototype.__proto___指向father.prototype。
+
+obj.__proto___会指向child.prototype， 而obj.__proto___.__proto__会指向child.prototype.__proto__，也就是我们创建的father.prototype。
+
+这样实例对象obj既继承与子类又继承与父类。当你修改子类或者父类原型中的方法时，实例都会受到影响。
+
+有一点需要注意的时，当你使用child.prototype = new father(); 他会破坏原来child.prototype以及其指向，所以你必须在这之后对child.prototype添加你需要的属性，比如本例中的say属性，或者修改constructor属性。
+
+## 也可以使用ES6中新添加的方法 a = Object.create(b) 创建一个对象指向a，并使a的原型关联到b对象上。类比可以将b看作时例子中的father.prototype或者child.prototype。
 
 

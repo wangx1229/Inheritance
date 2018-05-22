@@ -26,7 +26,7 @@ obj.name // balabala
 调用函数的时候使用call可以讲函数中的this指向obj，这个时候，obj就有了name属性，属性值是balabala。
 
 ## 原型链
-JS万物皆是对象（如果你非要拿4种简单基本类型来怼我，对不起，请出门右转），而每个对象都有一个prototype属性。
+既然JS万物皆是对象，而每个对象都有一个prototype属性。
 
 举个栗子：
 
@@ -48,9 +48,9 @@ father.prototype.say = function() {
 }
 const obj = new father();
 ```
-father类中属性，会通过new调用以后，成为实例obj的属性，因此这个时候obj就有了name和speak属性。
+father类中属性，会通过new调用以后，成为实例obj的属性，因此这个时候obj就有了name属性。
 
-同时由于obj的原型对象会指向father.prototype对象，因此obj可以通过原型使用father.prototype中的spell属性。
+同时由于obj的原型对象会指向father.prototype对象，因此obj可以通过原型使用father.prototype中的say属性。
 
 下面我们加入子类的情况，其中子类是通过父类实现的。
 ## 如果你仅仅希望子类的实例继承于子类但又不继承与父类时
